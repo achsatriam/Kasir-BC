@@ -4,6 +4,10 @@
     Add Produk
 @endsection
 
+@push('admin_style')
+  <link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+@endpush
+
 @section('masterproduk-active', 'active open')
 
 @section('content')
@@ -57,9 +61,33 @@
               </div>
             </div>
             <div class="row mb-3">
+              <label class="col-sm-2 col-form-label" for="basic-default-company">Stok</label>
+              <div class="col-sm-10">
+                <input
+                  type="text"
+                  name="stok"
+                  class="form-control @error('stok') is-invalid @enderror"
+                  value="{{ old('stok') }}"
+                />
+                @error('stok')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
+            </div>
+            <div class="row mb-3" style="display: flex">
+              <label class="col-sm-2 col-form-label" for="basic-default-name">Jenis Kategori</label>
+              <div class="col-sm-10">
+                  <select name="kategori_id" class="form-select" value="{{ old('kategori_id') }}" id="kategori_id" aria-label="Default select example">
+                    @foreach ($kategori as $item)
+                      <option value="{{ $item->id }}">{{ $item->kategori }}</option>
+                    @endforeach
+                  </select>
+              </div>
+            </div>
+            <div class="row mb-3">
               <label class="col-sm-2 col-form-label" for="basic-default-company">Foto</label>
               <div class="col-sm-10">
-                <input class="form-control dropify @error('foto') is-invalid @enderror" value="{{ old('foto') }}" name="foto" type="file" id="foto" />
+                <input class="form-control dropify @error('foto') is-invalid @enderror" value="{{ old('foto') }}" name="foto" type="file" id="foto" onchange="previewImage()" />
                 @error('foto')
                   <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
@@ -76,3 +104,9 @@
     </div>
   </div>
 @endsection
+@push('admin_script')
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+  <script>
+    $('.dropify').dropify();
+  </script>
+@endpush

@@ -27,7 +27,7 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Dashboard</title>
+    <title>@yield('title')</title>
 
     <meta name="description" content="" />
 
@@ -49,6 +49,9 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/core.css') }}" class="template-customizer-core-css" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/css/theme-default.css') }}" class="template-customizer-theme-css" />
     <link rel="stylesheet" href="{{ asset('assets/css/demo.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.css" integrity="sha512-In/+MILhf6UMDJU4ZhDL0R0fEpsp4D3Le23m6+ujDWXwl3whwpucJG1PEmI3B07nyJx+875ccs+yX2CqQJUxUw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
 
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
@@ -150,9 +153,15 @@
               </a>
             </li>
             <li class="menu-item @yield('payment-active')">
-              <a href="{{ route ('dashboard') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-cube"></i>
-                <div data-i18n="Produk">Payment</div>
+              <a href="{{ route ('pembayaran') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-cart"></i>
+                <div data-i18n="Produk">Pembayaran</div>
+              </a>
+            </li>
+            <li class="menu-item @yield('report-active')">
+              <a href="{{ route ('laporan') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-file"></i>
+                <div data-i18n="Produk">Laporan Penjualan</div>
               </a>
             </li>
             <li class="menu-header small text-uppercase">
@@ -160,14 +169,14 @@
             </li>
             <li class="menu-item @yield('produk-active')" >
               <a href="{{ route ('produk') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
+                <i class="menu-icon tf-icons bx bx-list-ul"></i>
                 <div data-i18n="Produk">Produk</div>
               </a>
             </li>
-            <li class="menu-item @yield('stok-active')" >
-              <a href="{{ route ('stok') }}" class="menu-link">
+            <li class="menu-item @yield('kategoriproduk-active')" >
+              <a href="{{ route ('kategori') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-collection"></i>
-                <div data-i18n="Produk">Stok</div>
+                <div data-i18n="Produk">Kategori Produk</div>
               </a>
             </li>
           </ul>
@@ -186,13 +195,17 @@
       <div class="layout-overlay layout-menu-toggle"></div>
     </div>
     <!-- / Layout wrapper -->
-
-    <!-- Core JS -->
+    
     <!-- build:js assets/vendor/js/core.js -->
     <script src="{{ asset('assets/vendor/libs/jquery/jquery.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('assets/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+
+    <!-- Core JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js" integrity="sha512-8QFTrG0oeOiyWo/VM9Y8kgxdlCryqhIxVeRpWSezdRRAvarxVtwLnGroJgnVW9/XBRduxO/z1GblzPrMQoeuew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script>
 
     <script src="{{ asset('assets/vendor/js/menu.js') }}"></script>
     <!-- endbuild -->
@@ -208,5 +221,21 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
+    
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <script>
+      @if (Session::has('success'))
+        toastr.success('{{ Session::get('success') }}');
+      @endif
+    </script>
+    <script>
+      $(document).ready( function () {
+        $('#myTable').DataTable();
+      } );
+    </script>
+
+    @stack('admin_script')
+  
   </body>
 </html>

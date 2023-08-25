@@ -4,17 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produk;
-use Illuminate\Support\Facades\File; 
+use App\Models\Kategori;
+use Illuminate\Support\Facades\File;
 
 class ProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $produk = Produk::all();
-        return view ('produk.masterproduk', compact('produk'));
+        if (!empty($request->kategori)) {
+            $produk = Produk::where('kategori_id', $request->kategori)->get();
+        } else {
+            $produk = Produk::all();
+        }
+        $kategori = Kategori::all();
+        return view ('produk.masterproduk', compact('produk', 'kategori'));
     }
 
     /**
@@ -22,8 +28,8 @@ class ProdukController extends Controller
      */
     public function create()
     {
-        $produk = Produk::all();
-        return view ('produk.addproduk',compact ('produk'));
+        $kategori = Kategori::all();
+        return view ('produk.addproduk',compact ('kategori'));
     }
 
     /**
@@ -31,11 +37,22 @@ class ProdukController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nama_produk' => 'required',
+            'harga' => 'required',
+            'kategori_id' => 'required',
+            'foto' => 'required',
+        ]);
+
         $produk= new Produk();
 
         $produk->nama_produk=$request->nama_produk;
 
         $produk->harga=$request->harga;
+
+        $produk->stok=$request->stok;
+        
+        $produk->kategori_id=$request->kategori_id;
 
         if ($request->file('foto')) {
             $request->file('foto')->move('post-images/', $request->file('foto')->getClientOriginalName());
@@ -62,7 +79,8 @@ class ProdukController extends Controller
     public function edit(string $id)
     {
         $produk = Produk::find($id);
-        return view('produk.editproduk', compact('produk'));
+        $kategori = Kategori::all();
+        return view('produk.editproduk', compact('produk', 'kategori'));
     }
 
     /**
@@ -70,10 +88,20 @@ class ProdukController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'nama_produk' => 'required',
+            'harga' => 'required',
+            'kategori_id' => 'required',
+            'foto' => 'required',
+        ]);
+
         $produk = Produk::find($id);
         
         $produk->nama_produk=$request->nama_produk;
+        
         $produk->harga=$request->harga;
+
+        $produk->stok=$request->stok;
 
         if ($request->file('foto')) {
             File::delete('post-images/'. $produk->foto);
