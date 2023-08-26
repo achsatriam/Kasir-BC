@@ -23,32 +23,23 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 
 //Payment
 Route::get('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran');
+Route::post('/pembayaran', [PembayaranController::class, 'store'])->name('pembayaran.store');
 
 //Report
 Route::get('/laporan', [LaporanController::class, 'index'])->name('laporan');
 
 //Produk
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk');
-
 Route::get('/addproduk', [ProdukController::class, 'create'])->name('addproduk');
-
 Route::post('produk', [ProdukController::class, 'store']);
-
 Route::get('produk/edit/{id}', [ProdukController::class, 'edit']);
-
 Route::post('produk/update/{id}', [ProdukController::class, 'update']);
-
 Route::delete('produk/{id}', [ProdukController::class, 'destroy']);
 
 //Kategori
 Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori');
-
 Route::get('/addkategori', [KategoriController::class, 'create'])->name('addkategori');
-
 Route::post('kategori', [KategoriController::class, 'store']);
-
 Route::get('kategori/edit/{id}', [KategoriController::class, 'edit']);
-
 Route::post('kategori/update/{id}', [KategoriController::class, 'update']);
-
 Route::delete('kategori/{id}', [KategoriController::class, 'destroy']);

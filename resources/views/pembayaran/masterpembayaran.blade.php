@@ -1,41 +1,41 @@
 @extends('template.index')
 
 @section('title')
-    Pembayaran
+  Pembayaran
 @endsection
 
 @section('payment-active', 'active open')
 
 @section('content')
-    <!-- / Menu -->
+  <!-- / Menu -->
 
-    <div class="layout-page">
-        <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-            <ul class="navbar-nav flex-row align-items-center ms-auto">
-            </ul>
-        </div>
-        <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Master Data/ </span> Pembayaran</h4>
-            <tbody>
-                <div class="row">
-                    <!-- Hoverable Table rows -->
-                    <div class="col-md-7">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="table-responsive text-nowrap">
-                                    <table class="table table-striped" id="myTable">
-                                        <thead>
-                                            <tr>
-                                                <th>Foto</th>
-                                                <th>Nama Produk</th>
-                                                <th>Harga</th>
-                                                <th class="text-center">Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-border-bottom-0">
-                                            @foreach ($produk as $item)
-                                                {{-- kodingan memekd --}}
-                                                {{-- <tr>
+  <div class="layout-page">
+    <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+      <ul class="navbar-nav flex-row align-items-center ms-auto">
+      </ul>
+    </div>
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Master Data/ </span> Pembayaran</h4>
+      <tbody>
+        <div class="row">
+          <!-- Hoverable Table rows -->
+          <div class="col-md-7">
+            <div class="card">
+              <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                  <table class="table table-striped" id="myTable">
+                    <thead>
+                      <tr>
+                        <th>Foto</th>
+                        <th>Nama Produk</th>
+                        <th>Harga</th>
+                        <th class="text-center">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      @foreach ($produk as $item)
+                        {{-- kodingan memekd --}}
+                        {{-- <tr>
                                                     <input type="hidden" class="delete_id" value="{{ $item->id }}">
                                                     <td>
                                                         <img class="zoom" src="{{ asset('post-images/' . $item->foto) }}"
@@ -58,81 +58,81 @@
                                                         </div>
                                                     </td>
                                                 </tr> --}}
-                                                {{-- end kodingan memekd --}}
+                        {{-- end kodingan memekd --}}
 
-                                                {{-- kodingan david --}}
-                                                <tr>
-                                                    <input type="hidden" class="delete_id" value="{{ $item->id }}">
-                                                    <td>
-                                                        <img class="zoom" src="{{ asset('post-images/' . $item->foto) }}"
-                                                            width="100px" alt="">
-                                                    </td>
-                                                    <td>
-                                                        <i class="fab fa-angular fa-lg text-danger me-3"></i>
-                                                        <strong>{{ $item->nama_produk }}</strong>
-                                                    </td>
-                                                    <td><span>Rp {{ number_format($item->harga) }}</span></td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-center gap-2 align-items-center">
-                                                            <button type="button"
-                                                                class="btn btn-outline-danger d-none">Delete</button>
-                                                            <button type="button"
-                                                                onclick="addProduk({{ $item }}, this)"
-                                                                class="btn btn-outline-success">Add</button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                                {{-- end kodingan david --}}
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                        {{-- kodingan david --}}
+                        <tr>
+                          <input type="hidden" class="delete_id" value="{{ $item->id }}">
+                          <td>
+                            <img class="zoom" src="{{ asset('post-images/' . $item->foto) }}" width="100px"
+                              alt="">
+                          </td>
+                          <td>
+                            <i class="fab fa-angular fa-lg text-danger me-3"></i>
+                            <strong>{{ $item->nama_produk }}</strong>
+                          </td>
+                          <td><span>Rp {{ number_format($item->harga) }}</span></td>
+                          <td>
+                            <div class="d-flex justify-content-center gap-2 align-items-center">
+                              <button type="button" class="btn btn-outline-danger d-none">Delete</button>
+                              <button type="button" onclick="addProduk({{ $item }}, this)"
+                                class="btn btn-outline-success">Add</button>
                             </div>
-                        </div>
-                    </div>
-                    <!--/ Hoverable Table rows -->
-                    <div class="col-md-5">
-                        <div class="card mb-4">
-
-                            <div class="card-header d-flex justify-content-between align-items-center">
-                                <h5 class="mb-0">Rincian</h5>
-                            </div>
-                            <div class="card-body">
-                                <div id="rincian">
-                                    <div class="" id="order_detail_wrapper">
-                                    </div>
-                                </div>
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" onclick="getTotal()" class="btn btn-primary">Send</button>
-                                </div>
-                                <form>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-default-fullname">Total</label>
-                                        <input disabled type="text" class="form-control" id="total" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-default-company">Bayar</label>
-                                        <input type="text" class="form-control" id="basic-default-company" />
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="basic-default-company">Kembalian</label>
-                                        <input type="text" class="form-control" id="basic-default-company" />
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Send</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+                          </td>
+                        </tr>
+                        {{-- end kodingan david --}}
+                      @endforeach
+                    </tbody>
+                  </table>
                 </div>
-            </tbody>
+              </div>
+            </div>
+          </div>
+          <!--/ Hoverable Table rows -->
+          <div class="col-md-5">
+            <div class="card mb-4">
+
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Rincian</h5>
+              </div>
+              <div class="card-body">
+                <form method="POST" action="{{ route('pembayaran.store') }}">
+                  @csrf
+                  <div id="rincian">
+                    <div class="" id="order_detail_wrapper">
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="basic-default-fullname">Total</label>
+                    <input disabled type="text" class="form-control" id="total-input" />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="basic-default-company">Bayar</label>
+                    <input type="text" class="form-control" id="basic-default-company" />
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label" for="basic-default-company">Kembalian</label>
+                    <input type="text" class="form-control" id="basic-default-company" />
+                  </div>
+                  <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
-    @endsection
-    <script src="{{ asset('assets\js\jquery-3.6.1.min.js') }}"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    @push('admin_script')
-        <script src="{{ asset('assets/js/cart.js') }}"></script>
-    @endpush
-    {{-- <script>
+      </tbody>
+    </div>
+  @endsection
+  <script src="{{ asset('assets\js\jquery-3.6.1.min.js') }}"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  {{-- kodingan david --}}
+  @push('admin_script')
+    <script src="{{ asset('assets/js/cart.js') }}"></script>
+  @endpush
+
+  {{-- kodingan memekd --}}
+  {{-- <script>
         console.log('test');
         var array_produk = []
 
